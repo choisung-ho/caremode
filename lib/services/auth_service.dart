@@ -86,20 +86,20 @@ class AuthService {
       lastError =
           '회원가입 실패: status=${response.statusCode} ${response.data ?? ''}'
               .trim();
-      debugPrint('Signup failed: $lastError');
+      debugPrint('Signup failed');
       return false;
     } on DioException catch (e) {
       final msg = _prettyDioError(e);
       lastError = msg;
-      debugPrint('Signup failed: $lastError');
+      debugPrint('Signup failed');
       return false;
     } on TimeoutException {
       lastError = '요청 시간 초과(타임아웃). 서버가 켜져있는지 확인하세요.';
-      debugPrint('Signup failed: $lastError');
+      debugPrint('Signup failed');
       return false;
     } catch (e) {
       lastError = '알 수 없는 오류: $e';
-      debugPrint('Signup failed: $lastError');
+      debugPrint('Signup failed');
       return false;
     }
   }
@@ -162,11 +162,11 @@ class AuthService {
         lastError =
             '[${e.code}] ${e.message ?? '로그인 실패(FirebaseAuthException)'}';
       }
-      debugPrint('Login failed: $lastError');
+      debugPrint('Login failed');
       return null;
     } catch (e) {
       lastError = '알 수 없는 오류: $e';
-      debugPrint('Login failed: $lastError');
+      debugPrint('Login failed');
       return null;
     }
   }

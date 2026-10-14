@@ -43,7 +43,7 @@ class _VoiceOnboardingScreenState extends State<VoiceOnboardingScreen> {
     setState(() {
       _userCode = prefs.getString(_prefsSeniorCodeKey);
     });
-    debugPrint('🎤 VoiceOnboarding: userCode=$_userCode');
+    debugPrint('Voice onboarding configuration loaded');
   }
 
   Future<void> _checkPermissionAndStart() async {
@@ -250,9 +250,7 @@ class _VoiceOnboardingScreenState extends State<VoiceOnboardingScreen> {
 
   void _uploadAndContinue() async {
     debugPrint('[DEBUG] _uploadAndContinue 진입');
-    debugPrint(
-      '🟡 [DEBUG] 업로드 시도: userCode=$_userCode, file=$_recordedFilePath',
-    );
+    debugPrint('Voice onboarding upload started');
     await _uploadVoiceSample();
     debugPrint('🟡 [DEBUG] 업로드 결과: $_uploadResult');
     if (_uploadResult != null && _uploadResult!.contains('완료')) {

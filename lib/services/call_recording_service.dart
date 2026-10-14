@@ -91,7 +91,7 @@ class CallRecordingService {
     _userCode = userCode;
     _serviceStartTime = DateTime.now();
 
-    debugPrint('📞 통화 녹음 서비스 시작 (코드: $userCode)');
+    debugPrint('Call recording service started');
 
     // 저장된 폴더 URI 로드
     await _loadSavedFolderUri();
@@ -150,7 +150,7 @@ class CallRecordingService {
       // userCode 로드
       if (_userCode == null) {
         _userCode = prefs.getString(_prefsSeniorCodeKey);
-        debugPrint('📱 SharedPreferences에서 userCode 로드: $_userCode');
+        debugPrint('Call recording configuration loaded');
       }
 
       // folderUri 로드
@@ -272,9 +272,7 @@ class CallRecordingService {
     }
 
     if (_userCode == null || _selectedFolderUri == null) {
-      debugPrint(
-        '⚠️ 스캔 불가: userCode=$_userCode, folderUri=$_selectedFolderUri',
-      );
+      debugPrint('Call recording configuration incomplete');
       return;
     }
 

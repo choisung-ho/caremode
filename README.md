@@ -1,32 +1,55 @@
-# Caremode
+# Caremode — 고령자와 보호자를 위한 돌봄 모바일 앱
 
-고령자와 보호자의 돌봄 흐름을 지원하는 Flutter 모바일 앱 소스입니다. 사용자 역할에 따른 화면, Firebase 인증, 음성 대화와 파일 업로드, 복약 알림·통화 녹음 연동 구현을 포함합니다.
+고령자와 보호자의 역할에 맞춰 화면을 제공하고, 음성 대화·복약 알림·미디어와 통화 파일 연동을 연결한 Flutter 모바일 앱 프로젝트입니다.
 
-## 주요 구성
+## 해결하려던 문제
 
-- `lib/screens`: 로그인·가입·역할 선택, 대상자/보호자 홈, 음성 대화, 미디어·메시지 업로드, 복약 알림
-- `lib/services/auth_service.dart`: FastAPI 인증 API와 Firebase Custom Token 로그인
-- `lib/screens/voice_chat_screen.dart`: WebSocket 오디오 송수신
-- `lib/services/call_recording_service.dart`: Android SAF 폴더 접근·전화 상태 구독·녹음 파일 업로드
-- `lib/services`: FCM, 파일·미디어 저장, 백그라운드 작업과 호출어 처리
+돌봄 앱은 대상자의 단순한 이용 흐름과 보호자의 관리 흐름을 함께 고려해야 합니다. 인증과 역할에 따른 화면 전환, 음성 입력, 파일 권한과 업로드를 각각의 서비스로 나눠 구성했습니다.
 
-## 실행 준비
+## 주요 구현
 
-Flutter/Dart 환경은 `pubspec.yaml`의 SDK 조건(`^3.10.1`)을 확인하세요. Firebase 프로젝트와 호환되는 백엔드는 직접 준비해야 합니다. 이 저장소에는 서버·운영 설정·사용자 데이터가 포함되지 않습니다.
+- **사용자 역할:** 가입·로그인, 역할 선택, 대상자·보호자 홈 화면
+- **인증:** 백엔드 가입 API, Firebase Auth 로그인과 Firestore 역할 조회, 보안 저장소
+- **음성 대화:** 마이크 입력과 WebSocket 오디오 송수신, 대화 화면의 자원 관리
+- **생활 지원:** 복약 알림, FCM 알림, 미디어·메시지 업로드
+- **Android 연동:** SAF 폴더 접근, 전화 상태 구독과 녹음 파일 업로드
+
+## 구조와 기술
+
+| 경로 | 역할 |
+| --- | --- |
+| `lib/screens/` | 가입·역할·홈·음성 대화·업로드·알림 화면 |
+| `lib/services/auth_service.dart` | 가입 API 호출, Firebase 로그인, 역할 조회 |
+| `lib/screens/voice_chat_screen.dart` | WebSocket 오디오 대화 |
+| `lib/services/call_recording_service.dart` | Android 파일·전화 상태 연동 |
+| `lib/services/fcm_manager.dart` | 알림 토큰 관리와 서버/Firestore 연동 |
+
+Flutter·Dart, Firebase Auth·Firestore·FCM·Storage, Dio, WebSocket과 Android 파일 접근 라이브러리를 사용합니다.
+
+## 설계와 문제 해결
+
+- **네트워크 실패 처리:** 가입·로그인 요청의 타임아웃과 실패 원인을 구분합니다.
+- **역할별 화면 흐름:** 로그인 결과와 역할 정보를 앱 화면 전환에 연결합니다.
+- **기기 자원 관리:** 마이크·WebSocket·전화 상태 구독의 시작과 종료를 서비스 단위로 다룹니다.
+- **권한과 파일 접근:** Android SAF로 사용자가 허용한 폴더를 읽고 녹음 파일을 업로드합니다.
+- **로그 보호:** FCM 토큰·사용자 식별 정보와 인증 응답 내용을 진단 로그에 출력하지 않습니다.
+
+## 실행
+
+`pubspec.yaml`의 Dart SDK 조건은 `^3.10.1`입니다. Flutter, Firebase 프로젝트와 호환되는 백엔드를 준비합니다.
 
 ```bash
+git clone https://github.com/choisung-ho/caremode.git
+cd caremode
 flutter pub get
-# FlutterFire CLI를 설치한 환경에서 프로젝트 설정 생성
 flutterfire configure
 flutter run --dart-define=AUTH_API_BASE_URL=http://10.0.2.2:8000 --dart-define=PICOVOICE_ACCESS_KEY=YOUR_LOCAL_KEY
 ```
 
-FlutterFire 설정으로 `lib/firebase_options.dart`와 플랫폼 Firebase 설정을 생성하세요. 이 파일들은 저장소에서 제외했습니다. Android 에뮬레이터의 `10.0.2.2`는 개발 PC를 가리킵니다. 실기기에서는 접근 가능한 개발 서버 주소가 필요하며 음성·미디어 서비스의 연결 주소도 환경에 맞게 설정해야 합니다. 실제 연결과 기기 기능의 성공은 별도 검증이 필요합니다.
+`flutterfire configure`로 `lib/firebase_options.dart`와 플랫폼 Firebase 설정을 생성합니다. `10.0.2.2`는 Android 에뮬레이터에서 개발 PC를 가리키며, 실기기에서는 접근 가능한 백엔드 주소가 필요합니다. 음성·미디어 서비스 연결도 실행 환경에 맞춰 설정합니다.
 
-Picovoice 키는 `--dart-define`으로 전달합니다. 개인 이름을 사용한 커스텀 호출어 모델과 폰트 바이너리는 포함하지 않았으며 Flutter 기본 폰트로 표시됩니다. 통화 파일·전화 상태·알림 접근 기능은 Android 버전과 권한, 기기 제조사에 따라 다릅니다.
+## 구현 범위와 한계
 
-## 포트폴리오 설명
+이 저장소는 모바일 클라이언트입니다. 백엔드와 운영 Firebase 설정, 실제 사용자 자료는 포함하지 않습니다. 통화 파일·전화 상태·알림 접근은 Android 버전·권한·제조사에 따라 달라집니다. 사용자별 커스텀 호출어 모델은 별도로 준비해야 합니다. 실제 기기에서의 전체 서비스 연결과 기능 검증은 릴리스 전에 확인해야 합니다.
 
-핵심은 역할 기반 사용자 흐름, 인증 실패·타임아웃 처리, 마이크·WebSocket 자원 관리, Android 파일 권한과 업로드 연동입니다. 화면 수보다 실제 담당 기능과 기기에서 해결한 문제를 설명하는 것이 좋습니다.
-
-현재 업로드는 기존 로컬 소스를 보관·정리한 것으로 전체 앱 빌드·서비스 연결·운영 성과를 검증한 릴리스는 아닙니다. 인증 payload 로그와 하드코딩된 호출어 키는 업로드본에서 제거했습니다.
+[검증 기록](docs/PUBLIC_VALIDATION.md)에서 이번 확인 범위를 볼 수 있습니다.

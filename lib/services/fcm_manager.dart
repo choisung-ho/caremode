@@ -49,7 +49,7 @@ class FCMManager {
 
       // 4) 토큰 갱신 시 자동 재전송
       _firebaseMessaging.onTokenRefresh.listen((newToken) {
-        debugPrint('🔄 [FCM] 토큰 갱신: $newToken');
+        debugPrint('FCM token refreshed');
         _syncTokenToServer(userId);
       });
 
@@ -144,7 +144,7 @@ class FCMManager {
       String? token = await _firebaseMessaging.getToken();
 
       if (token != null) {
-        debugPrint("🔑 [FCM] getToken(): $token");
+        debugPrint('FCM token retrieved');
 
         // 0) Firestore(users/[가입이메일])에 먼저 반영 (merge)
         await _syncTokenToFirestore(userId, token);
@@ -176,7 +176,7 @@ class FCMManager {
       await FirebaseFirestore.instance.collection('users').doc(userId).set({
         'fcmToken': token,
       }, SetOptions(merge: true));
-      debugPrint('✅ [FCM] Firestore fcmToken 저장 완료: users/$userId');
+      debugPrint('FCM token stored');
     } catch (e) {
       debugPrint('⚠️ [FCM] Firestore fcmToken 저장 실패: $e');
     }

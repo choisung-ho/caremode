@@ -65,7 +65,7 @@ class _AuthSignupScreenState extends State<AuthSignupScreen> {
       if (!mounted) return;
       setState(() => _fcmToken = token);
 
-      debugPrint('🔑 [회원가입] FCM 토큰 발급(getToken): $token');
+      debugPrint('Signup notification token retrieved');
     } catch (e) {
       debugPrint('❌ [회원가입] FCM 토큰 발급 실패: $e');
     }
@@ -175,7 +175,7 @@ class _AuthSignupScreenState extends State<AuthSignupScreen> {
         'role': _role,
         'gender': _gender,
       }, SetOptions(merge: true));
-      debugPrint('✅ [회원가입] Firestore fcmToken 저장 완료: users/$email');
+      debugPrint('Signup notification token stored');
     } catch (e) {
       debugPrint('⚠️ [회원가입] Firestore fcmToken 저장 실패: $e');
     }

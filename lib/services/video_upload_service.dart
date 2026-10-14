@@ -121,7 +121,7 @@ class VideoUploadService {
     _userCode = userCode;
     _scanInterval = scanInterval;
 
-    debugPrint('🎬 동영상 업로드 서비스 시작 (코드: $userCode)');
+    debugPrint('Video upload service started');
 
     // 저장된 폴더 URI 로드
     await _loadSavedFolderUri();
@@ -185,7 +185,7 @@ class VideoUploadService {
       // userCode 로드
       if (_userCode == null) {
         _userCode = prefs.getString(_prefsSeniorCodeKey);
-        debugPrint('📱 SharedPreferences에서 userCode 로드: $_userCode');
+        debugPrint('Video upload configuration loaded');
       }
 
       // folderUri 로드
@@ -259,9 +259,7 @@ class VideoUploadService {
     }
 
     if (_userCode == null || _selectedFolderUri == null) {
-      debugPrint(
-        '⚠️ 스캔 불가: userCode=$_userCode, folderUri=$_selectedFolderUri',
-      );
+      debugPrint('Video upload configuration incomplete');
       return;
     }
 
