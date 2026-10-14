@@ -1,0 +1,2 @@
+# flutter_local_notifications
+flutter_local_notifications: ^17.1.2
