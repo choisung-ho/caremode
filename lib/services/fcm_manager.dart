@@ -67,7 +67,7 @@ class FCMManager {
 
       // 6. 백그라운드에서 알림 클릭 시 처리
       FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-        debugPrint("📲 [FCM 클릭] 알림에서 앱 열림: ${message.notification?.title}");
+        debugPrint("📲 [FCM 클릭] 알림에서 앱 열림");
         // 필요하면 특정 화면으로 이동
       });
     } catch (e) {

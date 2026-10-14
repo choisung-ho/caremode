@@ -93,7 +93,7 @@ class _VoiceChatScreenState extends State<VoiceChatScreen>
         (data) {
           debugPrint('📩 WebSocket 데이터 수신: ${data.runtimeType}');
           if (data is String) {
-            debugPrint('📩 텍스트 수신: $data');
+            debugPrint("📩 텍스트 수신");
             _handleTextMessage(data);
           } else if (data is List<int>) {
             debugPrint('📩 오디오 수신: ${data.length} bytes');
@@ -134,18 +134,18 @@ class _VoiceChatScreenState extends State<VoiceChatScreen>
 
   void _handleTextMessage(String jsonStr) {
     try {
-      debugPrint('🔍 JSON 파싱 시도: $jsonStr');
+      debugPrint("🔍 JSON 파싱 시도");
       final data = jsonDecode(jsonStr);
       final type = data['type'];
       debugPrint('🔍 메시지 타입: $type');
 
       if (type == 'text') {
         final content = data['content'] ?? '';
-        debugPrint('💬 AI 응답: $content');
+        debugPrint("💬 AI 응답");
         _updateLastAiMessage(content);
       } else if (type == 'status') {
         final text = data['text'] ?? '';
-        debugPrint('ℹ️ 상태 메시지: $text');
+        debugPrint("ℹ️ 상태 메시지");
         _addSystemMessage(text);
       }
     } catch (e) {

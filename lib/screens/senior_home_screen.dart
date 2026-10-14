@@ -99,7 +99,7 @@ class _SeniorHomeScreenState extends State<SeniorHomeScreen>
       _notificationSubscription = NotificationService().messageStream.listen((
         message,
       ) {
-        debugPrint("🔔 [SeniorHome] UI 수신: $message");
+        debugPrint("🔔 [SeniorHome] UI 수신");
         if (!mounted) return; // mounted 체크를 먼저
 
         setState(() {

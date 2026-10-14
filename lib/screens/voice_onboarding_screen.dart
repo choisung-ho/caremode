@@ -91,7 +91,7 @@ class _VoiceOnboardingScreenState extends State<VoiceOnboardingScreen> {
         _uploadResult = null;
       });
 
-      debugPrint('[DEBUG] 녹음 시작: $_recordedFilePath');
+      debugPrint("[DEBUG] 녹음 시작");
 
       _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
         setState(() {
@@ -122,7 +122,7 @@ class _VoiceOnboardingScreenState extends State<VoiceOnboardingScreen> {
 
     try {
       final path = await _recorder.stop();
-      debugPrint('[DEBUG] 녹음 완료: $path');
+      debugPrint("[DEBUG] 녹음 완료");
 
       setState(() {
         _isRecording = false;
@@ -172,7 +172,7 @@ class _VoiceOnboardingScreenState extends State<VoiceOnboardingScreen> {
       return;
     }
 
-    debugPrint('[DEBUG] 음성 업로드 함수 진입: $_recordedFilePath');
+    debugPrint("[DEBUG] 음성 업로드 함수 진입");
     bool snackBarShown = false;
     setState(() {
       _isUploading = true;
@@ -252,7 +252,7 @@ class _VoiceOnboardingScreenState extends State<VoiceOnboardingScreen> {
     debugPrint('[DEBUG] _uploadAndContinue 진입');
     debugPrint('Voice onboarding upload started');
     await _uploadVoiceSample();
-    debugPrint('🟡 [DEBUG] 업로드 결과: $_uploadResult');
+    debugPrint("🟡 [DEBUG] 업로드 결과");
     if (_uploadResult != null && _uploadResult!.contains('완료')) {
       debugPrint('[DEBUG] 업로드 성공, SeniorHomeScreen 이동');
       if (mounted) {

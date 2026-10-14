@@ -310,7 +310,7 @@ class _MediaFileListScreenState extends State<MediaFileListScreen> {
       final tempDir = await getTemporaryDirectory();
       final tempFile = File('${tempDir.path}/${file.fileName}');
 
-      debugPrint('📥 파일 복사 중: ${file.fileName}');
+      debugPrint("📥 파일 복사 중");
       await _safStream.copyToLocalFile(file.uri, tempFile.path);
 
       File fileToUpload = tempFile;

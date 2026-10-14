@@ -225,7 +225,7 @@ class VideoUploadService {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(_prefsVideoFolderKey, uri);
 
-      debugPrint('✅ 동영상 폴더 선택됨: $uri');
+      debugPrint("✅ 동영상 폴더 선택됨");
 
       // 폴더가 확보되었으므로 스캔/타이머 시작
       _startScanningWorkflow();
@@ -293,7 +293,7 @@ class VideoUploadService {
         final modDate = DateTime.fromMillisecondsSinceEpoch(file.lastModified);
         if (modDate.isBefore(todayStart)) continue;
         if (modDate.isAfter(stableThreshold)) continue;
-        debugPrint('🎬 오늘 찍은 동영상 발견: ${file.name}');
+        debugPrint("🎬 오늘 찍은 동영상 발견");
         await _uploadVideoFromSaf(file);
         uploadCount++;
       }
@@ -354,7 +354,7 @@ class VideoUploadService {
         final modDate = DateTime.fromMillisecondsSinceEpoch(file.lastModified);
         if (modDate.isBefore(startDate) || modDate.isAfter(end)) continue;
         if (modDate.isAfter(stableThreshold)) continue;
-        debugPrint('🎬 기간 내 동영상 발견: ${file.name}');
+        debugPrint("🎬 기간 내 동영상 발견");
         await _uploadVideoFromSaf(file);
         uploadCount++;
       }
@@ -425,7 +425,7 @@ class VideoUploadService {
           debugPrint('⚠️ 압축 에러: $compressError, 원본으로 업로드 시도');
         }
       }
-      debugPrint('📤 Firebase Storage 업로드 시작: ${file.name}');
+      debugPrint("📤 Firebase Storage 업로드 시작");
       final storageRef = FirebaseStorage.instance
           .ref()
           .child('videos')
@@ -452,7 +452,7 @@ class VideoUploadService {
       });
       final snapshot = await uploadTask;
       final downloadUrl = await snapshot.ref.getDownloadURL();
-      debugPrint('✅ 동영상 업로드 완료: $downloadUrl');
+      debugPrint("✅ 동영상 업로드 완료");
       await _saveToFirestore(
         file.name,
         downloadUrl,

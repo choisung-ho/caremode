@@ -43,7 +43,7 @@ class FaceService {
       if (resp.statusCode >= 200 && resp.statusCode < 300) {
         final json = jsonDecode(resp.body);
         final message = json['message']?.toString() ?? '등록 성공';
-        debugPrint('[FaceService] 업로드 성공: ${resp.statusCode} $message');
+        debugPrint("[FaceService] 업로드 성공");
         return message;
       } else {
         final msg = '등록 실패: ${resp.statusCode} ${resp.body}';

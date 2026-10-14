@@ -177,7 +177,7 @@ class _MessageUploadScreenState extends State<MessageUploadScreen> {
       contentType: 'application/json',
     );
 
-    debugPrint('??SMS ?�로???�공: ${uploadResult.path}');
+    debugPrint('Message upload completed');
 
     // 5. Firestore??메�??�이???�??(?�택?�항)
     final downloadUrl = uploadResult.downloadUrl;

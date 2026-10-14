@@ -95,7 +95,7 @@ class NotificationService {
 
     // ★ 필터링: 우리가 원하는 앱(문자, 카톡 등)만 감시할 수 있음
     // 지금은 테스트니까 다 보여줄게!
-    debugPrint("🔔 알림 감지됨: [$packageName] $title : $content");
+    debugPrint("🔔 알림 감지됨: [");
 
     // 화면(UI)으로 텍스트 쏘기
     _msgController.add("[$title] $content");

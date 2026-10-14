@@ -17,7 +17,7 @@ const String notificationListenerPortName = 'caremode_notification_port';
 
 @pragma('vm:entry-point')
 void onNotificationEvent(NotificationEvent event) {
-  debugPrint("알림 수신: $event");
+  debugPrint("알림 수신");
 
   // ★ 통화 녹음 완료 알림 감지 → 업로드 트리거
   final pkg = event.packageName ?? '';

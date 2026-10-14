@@ -154,7 +154,7 @@ class MessageStorageService {
     await _saveMessages();
     _messageStreamController.add(_messages);
 
-    // debugPrint('💬 메시지 저장됨: [$title] $content (${message.appName})'); // 미사용 코드 제거
+    // debugPrint("💬 메시지 저장됨: ["); // 미사용 코드 제거
   }
 
   /// 메시지를 업로드됨으로 표시

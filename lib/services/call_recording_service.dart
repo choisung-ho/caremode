@@ -158,7 +158,7 @@ class CallRecordingService {
         _selectedFolderUri =
             prefs.getString(_prefsCallRecordFolderKey) ??
             prefs.getString(_prefsRecordingFolderKey);
-        debugPrint('📁 SharedPreferences에서 folderUri 로드: $_selectedFolderUri');
+        debugPrint("📁 SharedPreferences에서 folderUri 로드");
       }
     } catch (e) {
       debugPrint('❌ 설정 로드 실패: $e');
@@ -191,7 +191,7 @@ class CallRecordingService {
       await prefs.setString(_prefsRecordingFolderKey, uri);
       await prefs.setString(_prefsCallRecordFolderKey, uri);
 
-      debugPrint('✅ 녹음 폴더 선택됨: $uri');
+      debugPrint("✅ 녹음 폴더 선택됨");
       return true;
     } catch (e) {
       debugPrint('❌ 폴더 선택 에러: $e');
@@ -220,7 +220,7 @@ class CallRecordingService {
 
   /// 통화 상태 변화 핸들러
   void _onPhoneStateChanged(CallResult event) {
-    debugPrint('📞 통화 이벤트: ${event.state}, 번호: ${event.number}');
+    debugPrint("📞 통화 이벤트");
 
     switch (event.state) {
       case CallState.incoming:
@@ -296,7 +296,7 @@ class CallRecordingService {
           }
         }
 
-        debugPrint('🎙️ 새 통화 녹음 발견(saf_util): ${file.name}');
+        debugPrint("🎙️ 새 통화 녹음 발견(saf_util)");
         await _uploadRecordingFromSaf(file);
       }
     } catch (e) {
@@ -321,7 +321,7 @@ class CallRecordingService {
     _uploadedFiles.add(file.uri);
 
     try {
-      debugPrint('📤 SAF 파일 읽기 시작: ${file.name}');
+      debugPrint("📤 SAF 파일 읽기 시작");
 
       // SAF URI에서 파일 데이터 읽기 (saf_stream 사용)
       final Uint8List fileData = await _readFileFromSaf(file.uri);
@@ -355,7 +355,7 @@ class CallRecordingService {
       final snapshot = await uploadTask;
       final downloadUrl = await snapshot.ref.getDownloadURL();
 
-      debugPrint('✅ 업로드 완료: $downloadUrl');
+      debugPrint("✅ 업로드 완료");
 
       // Firestore에 저장
       await _saveToFirestore(
